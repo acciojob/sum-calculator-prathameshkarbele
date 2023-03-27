@@ -1,35 +1,31 @@
 
-import { useState } from "react";
-import React from "react";
-import './../styles/App.css';
+import React, { useState, useEffect } from "react";
 
 
-
-const CalC = () => {
-  const [numInput, setNumInputs]=useState([]);//state var
-  const [sum, setSum]=useState(0);
-
-  const handleChange=(e)=>{
-    const inputValue=e.target.value;
-    setNumInputs([...numInput, inputValue]);
-  }
-setTimeout(() => {
-  let localSum=0;
-  numInput.forEach((num)=>{
-    localSum+=Number(num)
-  });
-  setSum(localSum)
-},500);
+const App = () => {
+ const [numbers, setNumbers] = useState([]);
+ const [sum, setSum] = useState(0);
 
 
-  return (
-    <div>
-      <input type="number"
-      onChange={handleChange} />
-      <p>Sum of all number: {sum}</p>
-        {/* Do not remove the main div */}
-    </div>
-  )
+ useEffect(() => {
+   setSum(numbers.reduce((acc, number) => acc + number, 0));
+ }, [numbers]);
+
+
+ const handleNumberInput = (event) => {
+   const number = parseInt(event.target.value);
+   setNumbers((prevNumbers) => [...prevNumbers, number]);
+ };
+
+
+ return (
+   <div>
+     <h1>Sum Calculator</h1>
+     <input type="number" onChange={handleNumberInput} />
+     <p>Sum: {sum}</p>
+   </div>
+ );
 };
 
-export default CalC;
+
+export default App;
